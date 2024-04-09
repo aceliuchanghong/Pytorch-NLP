@@ -1,8 +1,8 @@
-# Pytorch-NLP
+### Pytorch-NLP
 
-使用Pytorch框架对NLP方向上的文本分类、实体识别、三元组抽取做代码实战
+用Pytorch对NLP方向做代码实战,基本全部都加了注释,并且修改了错误
 
-### env
+### Env
 
 ```shell
 pip freeze > requirement.txt
@@ -10,6 +10,8 @@ conda create -n myNLPs python=3.11
 conda activate myNLPs
 pip install -r requirement.txt --proxy=127.0.0.1:10809
 ```
+
+### Aspects
 
 [00-Word2Vec 字&词向量](./00-Word2Vec%20字&词向量)
 

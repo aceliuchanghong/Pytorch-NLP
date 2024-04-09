@@ -41,8 +41,3 @@ Bi-LSTM-CRF
 [CSDN Bi-LSTM-CRF 实体识别](https://blog.csdn.net/qq_48764574/article/details/131609636)
 
 [知乎 Bi-LSTM-CRF 实体识别](https://zhuanlan.zhihu.com/p/645620277)
-
-# 微信交流群
-我们有一个微信交流群，大家如果有需要，可以加入我们，一起进行学习。关注公众号后会有一个私人微信，添加微信，备注进群，就可以拉你进群，进行学习。
-
-![公众号](img/公众号.jpg)   
