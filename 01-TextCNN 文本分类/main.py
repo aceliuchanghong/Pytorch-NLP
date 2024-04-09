@@ -7,7 +7,7 @@ import os
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
-from utils import read_data, built_curpus, TextDataset
+from utils import read_data, built_corpus, TextDataset
 from model import TextCNNModel
 from config import parsers
 import pickle as pkl
@@ -28,7 +28,7 @@ if __name__ == "__main__":
         dataset = pkl.load(open(args.data_pkl, "rb"))
         word_2_index, words_embedding = dataset[0], dataset[1]
     else:
-        word_2_index, words_embedding = built_curpus(train_text, args.embedding_num)
+        word_2_index, words_embedding = built_corpus(train_text, args.embedding_num)
 
     train_dataset = TextDataset(train_text, train_label, word_2_index, args.max_len)
     train_loader = DataLoader(train_dataset, args.batch_size, shuffle=True)
@@ -67,21 +67,27 @@ if __name__ == "__main__":
                 print(msg.format(epoch + 1, batch_index + 1, loss_sum / count))
                 loss_sum, count = 0.0, 0
 
+        # 是一个模型方法，用于将模型切换到评估模式。当调用时，模型会在推理（inference）阶段执行，而不是训练阶段。
         model.eval()
+        # 评估模型在开发集（dev set）上的性能
         all_pred, all_true = [], []
+        # with torch.no_grad() 这个语句块内的计算不会被PyTorch的自动求导（autograd）系统跟踪梯度，以节省内存和提高速度。
         with torch.no_grad():
             for batch_text, batch_label in dev_loader:
                 batch_text = batch_text.to(device)
                 batch_label = batch_label.to(device)
                 pred = model(batch_text)
 
+                # 对预测结果进行argmax操作，得到模型预测的类别
                 pred = torch.argmax(pred, dim=1)
+                # 将预测结果和实际标签从GPU移到CPU，并将它们转换为NumPy数组，然后转换为Python列表。
                 pred = pred.cpu().numpy().tolist()
                 label = batch_label.cpu().numpy().tolist()
 
                 all_pred.extend(pred)
                 all_true.extend(label)
 
+        # 计算总体准确率，使用了一个叫做accuracy_score的函数，自于scikit-learn，用于计算分类任务的准确率。
         acc = accuracy_score(all_pred, all_true)
         print(f"dev acc:{acc:.4f}")
 
@@ -89,6 +95,7 @@ if __name__ == "__main__":
             acc_max = acc
             torch.save(model.state_dict(), args.save_model_best)
             print(f"以保存最佳模型")
+        # 打印分隔线
         print("*"*50)
 
     torch.save(model.state_dict(), args.save_model_last)

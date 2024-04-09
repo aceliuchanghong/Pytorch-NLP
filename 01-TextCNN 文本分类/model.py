@@ -8,6 +8,10 @@ import torch
 
 
 class Block(nn.Module):
+    """
+    Block 类在这个上下文中代表卷积神经网络（CNN）架构中的一个卷积块。
+    在深度学习中，特别是在CNN中，通常将网络架构组织成块或模块，以便更好地抽象化、重用和更容易管理复杂的架构。
+    """
     def __init__(self, kernel_s, embeddin_num, max_len, hidden_num):
         super().__init__()
         # shape [batch *  in_channel * max_len * emb_num]
@@ -29,6 +33,7 @@ class TextCNNModel(nn.Module):
         super().__init__()
         self.emb_num = emb_matrix.weight.shape[1]
 
+        # 每个实例代表一个不同的块，具有特定的内核大小 (2、3 和 4)，这在文本CNN中是典型的，用于捕获不同的 n-gram 特征。
         self.block1 = Block(2, self.emb_num, max_len, hidden_num)
         self.block2 = Block(3, self.emb_num, max_len, hidden_num)
         self.block3 = Block(4, self.emb_num, max_len, hidden_num)
