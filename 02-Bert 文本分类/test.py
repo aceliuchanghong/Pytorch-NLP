@@ -1,8 +1,3 @@
-# -*- coding:utf-8 -*-
-# @author: 木子川
-# @Email:  m21z50c71@163.com
-# @VX：fylaicai
-
 import torch
 from tqdm import tqdm
 from utils import read_data, MyDataset

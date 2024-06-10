@@ -1,10 +1,5 @@
-# -*- coding:utf-8 -*-
-# @author: 木子川
-# @Email:  m21z50c71@163.com
-# @VX：fylaicai
-
 import torch
-from utils import read_data, MyDataset
+from utils import read_data, MyDataset, read_data2
 from config import parsers
 from torch.utils.data import DataLoader
 from model import MyModel
@@ -14,15 +9,17 @@ from sklearn.metrics import accuracy_score
 import time
 from test import test_data
 
-
 if __name__ == "__main__":
     start = time.time()
     args = parsers()
 
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
 
-    train_text, train_label, max_len = read_data(args.train_file)
-    dev_text, dev_label = read_data(args.dev_file)
+    # train_text, train_label, max_len = read_data(args.train_file)
+    # dev_text, dev_label = read_data(args.dev_file)
+    train_text, train_label, max_len = read_data2(args.train_file)
+    dev_text, dev_label = read_data2(args.dev_file)
+
     args.max_len = max_len
 
     train_dataset = MyDataset(train_text, train_label, args.max_len)
@@ -51,7 +48,8 @@ if __name__ == "__main__":
             count += 1
 
             # 打印内容
-            if len(train_dataloader) - batch_index <= len(train_dataloader) % 1000 and count == len(train_dataloader) % 1000:
+            if len(train_dataloader) - batch_index <= len(train_dataloader) % 1000 and count == len(
+                    train_dataloader) % 1000:
                 msg = "[{0}/{1:5d}]\tTrain_Loss:{2:.4f}"
                 print(msg.format(epoch + 1, batch_index + 1, loss_sum / count))
                 loss_sum, count = 0.0, 0
@@ -85,5 +83,5 @@ if __name__ == "__main__":
     torch.save(model.state_dict(), args.save_model_last)
 
     end = time.time()
-    print(f"运行时间：{(end-start)/60%60:.4f} min")
+    print(f"运行时间：{(end - start) / 60 % 60:.4f} min")
     test_data()

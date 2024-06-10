@@ -1,8 +1,3 @@
-# -*- coding:utf-8 -*-
-# @author: 木子川
-# @Email:  m21z50c71@163.com
-# @VX：fylaicai
-
 import os
 from config import parsers
 # transformer库是一个把各种预训练模型集成在一起的库，导入之后，你就可以选择性的使用自己想用的模型，这里使用的BERT模型。
@@ -20,6 +15,24 @@ def read_data(file):
     for data in all_data:
         if data:
             text, label = data.split("\t")
+            max_length.append(len(text))
+            texts.append(text)
+            labels.append(label)
+    # 根据不同的数据集返回不同的内容
+    if os.path.split(file)[1] == "train.txt":
+        max_len = max(max_length)
+        return texts, labels, max_len
+    return texts, labels,
+
+
+def read_data2(file):
+    # 读取文件
+    all_data = open(file, "r", encoding="utf-8").read().split("\n")
+    # 得到所有文本、所有标签、句子的最大长度
+    texts, labels, max_length = [], [], []
+    for data in all_data:
+        if data:
+            label, text = data.split(":")
             max_length.append(len(text))
             texts.append(text)
             labels.append(label)
@@ -111,7 +124,8 @@ class MyDataset(Dataset):
 
 
 if __name__ == "__main__":
-    train_text, train_label, max_len = read_data("./data/train.txt")
+    # train_text, train_label, max_len = read_data("./data/train.txt")
+    train_text, train_label, max_len = read_data2("./data/train.txt")
     print(train_text[0], train_label[0])
     trainDataset = MyDataset(train_text, train_label, max_len)
     trainDataloader = DataLoader(trainDataset, batch_size=3, shuffle=False)

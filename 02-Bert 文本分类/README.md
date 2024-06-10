@@ -60,10 +60,14 @@ position Embedding：编码单词出现的位置，与 transformer 使用固定�
 其类别为 finance、realty、stocks、education、science、society、politics、sports、game、entertainment 这十个类别。
 
 # 模型训练
-`python main.py`
+`
+python main.py
+`
 
 # 模型预测
-`python predict.py`
+`
+python predict.py
+`
 
 # 训练自己的数据集
 train.txt、dev.txt、test.txt 的数据格式：文本\t标签（数字表示）

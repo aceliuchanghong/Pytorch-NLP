@@ -1,8 +1,3 @@
-# -*- coding:utf-8 -*-
-# @author: 木子川
-# @Email:  m21z50c71@163.com
-# @VX：fylaicai
-
 from model import MyModel
 from config import parsers
 import torch
@@ -34,8 +29,8 @@ def text_class_name(pred):
     classification = open(args.classification, "r", encoding="utf-8").read().split("\n")
     classification_dict = dict(zip(range(len(classification)), classification))
     print(f"文本：{text}\t预测的类别为：{classification_dict[result[0]]}")
-    
-    
+
+
 if __name__ == "__main__":
     start = time.time()
     args = parsers()
@@ -43,8 +38,9 @@ if __name__ == "__main__":
 
     model = load_model(device, args.save_model_best)
 
-    texts = ["我们一起去打篮球吧！", "我喜欢踢足球！", "沈腾和马丽的新电影《独行月球》很好看", "昨天玩游戏，完了一整天",
-             "现在的高考都已经开始分科考试了。", "中方：佩洛西如赴台将致严重后果", "现在的股票基金趋势很不好"]
+    texts_old = ["我们一起去打篮球吧！", "我喜欢踢足球！", "沈腾和马丽的新电影《独行月球》很好看", "昨天玩游戏，完了一整天",
+                 "现在的高考都已经开始分科考试了。", "中方：佩洛西如赴台将致严重后果", "现在的股票基金趋势很不好"]
+    texts = ["你好！", "帮我说一下刘总和马总的关系", "帮我生成一个讲解河流的视频"]
     print("模型预测结果：")
     for text in texts:
         x = process_text(text, args.bert_pred)

@@ -1,8 +1,3 @@
-# -*- coding:utf-8 -*-
-# @author: 木子川
-# @Email:  m21z50c71@163.com
-# @VX：fylaicai
-
 from model import TextCNNModel
 import torch
 from torch.utils.data import DataLoader
