@@ -2,6 +2,7 @@ import torch.nn as nn
 from transformers import BertModel
 from config import parsers
 import torch
+import torch.nn.functional as F
 
 
 class MyModel(nn.Module):
@@ -21,6 +22,14 @@ class MyModel(nn.Module):
         input_ids, attention_mask = x[0].to(self.device), x[1].to(self.device)
 
         if input_ids.shape[1] != attention_mask.shape[1]:
+            # # 计算需要填充的长度
+            # pad_length = self.args.max_len + 2 - input_ids.shape[1]
+            # # 对input_ids进行填充
+            # input_ids = F.pad(input_ids, (0, pad_length), value=self.tokenizer.pad_token_id)
+            # # 对attention_mask进行填充
+            # attention_mask = F.pad(attention_mask, (0, pad_length), value=0)
+
+            print('input_ids.shape:', input_ids.shape, 'attention_mask.shape:', attention_mask.shape)
             raise ValueError("input_ids and attention_mask must have the same sequence length")
         # input_ids是torch.Size([32, 40])而attention_mask是torch.Size([32, 38])
         hidden_out = self.bert(input_ids, attention_mask=attention_mask,
